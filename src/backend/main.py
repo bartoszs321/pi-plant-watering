@@ -8,6 +8,7 @@ pump = Motor(forward=26, backward=20)
 
 @app.get("/watering/start/{time}")
 async def start_watering(time):
+    time = int(time)
     if (time >= 30):
         return HTTPException(status_code=400, detail="Time too high")
     pump.forward(1)
