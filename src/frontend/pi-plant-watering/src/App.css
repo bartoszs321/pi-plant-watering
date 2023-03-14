@@ -22,3 +22,12 @@ input {
   box-shadow: 1px 1px 1px 1px rgb(212, 212, 212);
 
 }
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .App {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100vw;
+  }
+}

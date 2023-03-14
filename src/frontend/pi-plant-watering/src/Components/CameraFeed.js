@@ -28,6 +28,7 @@ const CameraFeed = () => {
       </button>
       {showVideo && (
         <img
+          className="video-feed"
           src="http://192.168.0.83:8080/video"
           ref={imageRef}
           onError={imageErrorHandler}
