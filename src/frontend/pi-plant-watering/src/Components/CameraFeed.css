@@ -1,0 +1,35 @@
+/* .container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction:column;
+  max-width: max-content;
+  gap: 1rem;
+  margin-bottom: 1rem;
+} */
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction:column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.container img {
+  max-width: max-content;
+}
+
+/* .container button {
+  max-width: max-content;
+} */
+
+.actionButton {
+  width: 10rem;
+  height: 3rem;
+  font-size: 20px;
+  align-self: end;
+}
+
+.actionButton:hover {
+  background-color: rgb(202, 202, 202);
+}
