@@ -1,17 +1,24 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./CameraFeed.css";
-import VideoFeed from "./VideoFeed";
 
 const CameraFeed = () => {
   const [showVideo, setShowVideo] = useState(false);
+  const [onError, setOnError] = useState(false);
 
   const imageRef = useRef();
 
   const toggleVideoHandler = () => {
+    setOnError(false);
     if (showVideo) {
+      // Stop the feed from loading in the background
       imageRef.current.src = "";
-    } 
-    setShowVideo((oldState) => !oldState);
+    }
+    if (!onError) setShowVideo((oldState) => !oldState);
+  };
+
+  const imageErrorHandler = () => {
+    setOnError(true);
+    setShowVideo(false);
   };
 
   return (
@@ -23,8 +30,10 @@ const CameraFeed = () => {
         <img
           src="http://192.168.0.83:8080/video"
           ref={imageRef}
+          onError={imageErrorHandler}
         ></img>
       )}
+      {onError && <p>Error Loading Video Feed!</p>}
     </div>
   );
 };
