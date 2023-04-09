@@ -4,6 +4,7 @@ import WateringPage from "./Components/Watering/WateringPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./Components/Login/Login";
+import UserSettings from "./Components/Users/UserSettings";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route path="/" element={<WateringPage />} />
+          <Route path="/users" element={<UserSettings />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

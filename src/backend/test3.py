@@ -11,23 +11,28 @@ from time import sleep
 from tinydb import TinyDB, Query
 from fastapi.middleware.cors import CORSMiddleware
 
-# to get a string like this run:
-# openssl rand -hex 32
-SECRET_KEY = os.environ['SECRET_KEY']
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 10
 
 db = TinyDB('db.json')
 
+# to get a string like this run:
+# openssl rand -hex 32
+db.default_table_name = 'jwt-settings'
+# SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = db.get(doc_id=1)['secret_key']
+
 
 def get_users():
+    db.default_table_name = '_default'
     return db.all()
 
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+    expiry: datetime
 
 
 class TokenData(BaseModel):
@@ -53,7 +58,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
+    allow_origins=['http://localhost:3000'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -91,7 +96,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
         expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return encoded_jwt, expire
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -133,9 +138,9 @@ async def login_for_access_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(data={"sub": user.username},
+    access_token, expires = create_access_token(data={"sub": user.username},
                                        expires_delta=access_token_expires)
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "expiry": expires}
 
 
 @app.get("/users/me/", response_model=User)

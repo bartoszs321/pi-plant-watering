@@ -31,14 +31,16 @@ const LoginForm = () => {
       },
       body: formBody,
     });
-    const data = response.json();
+    const data = await response.json();
     if (response.ok) {
       setAuth({
         state: {
           isFetching: false,
+          isExpired: false,
+          expires: data.expires
         },
         user: {
-          name: username,
+          username: username,
           access_token: data.access_token,
           isAuthenticated: true,
         },

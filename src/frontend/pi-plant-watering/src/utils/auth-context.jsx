@@ -8,9 +8,11 @@ export const AuthContextProvider = ({ children }) => {
       isFetching: false,
     },
     user: {
-      name: "",
+      username: "",
       access_token: "",
       isAuthenticated: false,
+      full_name: "",
+      email: "",
     },
   });
 
