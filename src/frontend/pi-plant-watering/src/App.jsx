@@ -21,8 +21,3 @@ const App = () => {
 };
 
 export default App;
-
-/* <div className="App">
-<h1 className="App-header">Pi Watering Project of me ded bonsai</h1>
-<WateringPage />
-</div> */

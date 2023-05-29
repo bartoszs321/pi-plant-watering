@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/auth-context";
+import Header from "../Layout/Header";
 
 const UserSettings = () => {
   const [auth, setAuth] = useContext(AuthContext);
-  console.log("USER", auth);
+  const [newPassword, setNewPassword] = useState("");
+
   useEffect(() => {
     fetch("http://127.0.0.1:8000/users/me", {
       method: "GET",
@@ -20,12 +22,64 @@ const UserSettings = () => {
       });
   }, []);
 
+  const handlePasswordChange = async (event) => {
+    event.preventDefault();
+
+    var body = {
+      new_password: newPassword,
+    };
+
+    var formBody = [];
+    for (var property in body) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(body[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    const response = await fetch("http://127.0.0.1:8000/user", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${auth.user.access_token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: formBody,
+    }).catch(() => {
+      console.log("Failed");
+    });
+    const data = await response.json();
+    if (response.ok) {
+      console.log("password changed");
+    } else {
+      console.log("Password change failed");
+    }
+  };
+
+  const passwordChangeHandler = (event) => {
+    setNewPassword(event.target.value);
+  };
+
   return (
-    <div>
-      <p>{auth.user.username}</p>
-      <p>{auth.user.full_name}</p>
-      <p>{auth.user.email}</p>
-    </div>
+    <>
+      <Header />
+      <div>
+        <h1>User Deets</h1>
+        <p>{auth.user.username}</p>
+        <p>{auth.user.full_name}</p>
+        <p>{auth.user.email}</p>
+      </div>
+      <div>
+        {/* <button>Add User Placeholder</button> */}
+        <form onSubmit={handlePasswordChange}>
+          <input
+            type="text"
+            value={newPassword}
+            onChange={passwordChangeHandler}
+          />
+          <button type="submit">Change password</button>
+        </form>
+      </div>
+    </>
   );
 };
 

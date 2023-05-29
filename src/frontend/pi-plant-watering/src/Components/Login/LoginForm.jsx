@@ -37,7 +37,7 @@ const LoginForm = () => {
         state: {
           isFetching: false,
           isExpired: false,
-          expires: data.expires
+          expires: data.expires,
         },
         user: {
           username: username,

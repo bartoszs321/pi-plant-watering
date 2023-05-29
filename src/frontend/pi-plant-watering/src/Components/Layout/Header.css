@@ -1,0 +1,22 @@
+.header-container {
+  padding: 30px;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header-title:hover {
+  cursor: pointer;
+  
+}
+
+.users-button {
+  box-shadow: none;
+}
+
+.users-button:hover {
+  background-color: rgb(202, 202, 202);
+}
