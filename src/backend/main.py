@@ -12,8 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# pump = Motor(forward=26, backward=20)
-pump=object()
+pump = Motor(forward=26, backward=20)
 
 db = TinyDB('db.json')
 
