@@ -1,13 +1,16 @@
 version: '3'
 services:
   api:
-    build: /src/backend
+    build: src/backend
     ports:
       - 8000:80
     volumes:
-      - $USERPROFILE\git\pi-plant-watering\src\backend\db.json:/code/db.json
+      - /home/pi/git/pi-plant-watering/src/backend/db.json:/code/db.json
+      - /sys:/sys
+    devices:
+      - /dev/gpiomem
   app:
-    build: /src/frontend/pi-plant-watering
+    build: src/frontend/pi-plant-watering
     ports:
       - 3000:3000
     

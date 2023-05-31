@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-pump = Motor(forward=26, backward=20)
+pump = Motor(forward=20, backward=26)
 
 db = TinyDB('db.json')
 
