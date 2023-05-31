@@ -13,7 +13,7 @@ const CustomWateringForm = () => {
       speed: speed,
     };
     const response = await fetch(
-      process.env.REACT_APP_BACKEND_ADDRESS + `/watering/start/${duration}`,
+      process.env.REACT_APP_BACKEND_ADDRESS + `/watering/start`,
       {
         method: "POST",
         headers: {
