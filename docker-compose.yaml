@@ -13,4 +13,5 @@ services:
     build: src/frontend/pi-plant-watering
     ports:
       - 3000:3000
-    
+    volumes:
+      - /home/pi/git/pi-plant-watering/src/frontend/pi-plant-watering/.env:/app/.env
