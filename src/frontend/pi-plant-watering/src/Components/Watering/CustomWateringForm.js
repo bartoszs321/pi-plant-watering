@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import "./CustomWateringForm.css";
+import { AuthContext } from "../../utils/auth-context";
 
 const CustomWateringForm = () => {
+  const [auth] = useContext(AuthContext);
+
   const [duration, setDuration] = useState(5);
   const [speed, setSpeed] = useState(0.6);
 
@@ -18,6 +21,7 @@ const CustomWateringForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.user.access_token}`
         },
         body: JSON.stringify(body),
       }
