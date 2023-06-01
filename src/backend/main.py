@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-pump = Motor(forward=26, backward=20)
+pump = Motor(forward=20, backward=26)
 
 db = TinyDB('db.json')
 
@@ -55,7 +55,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://localhost:3000'],
+    allow_origins=['http://localhost:3000', 'http://192.168.0.55:3000', 'http://172.29.4.222:3000'],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

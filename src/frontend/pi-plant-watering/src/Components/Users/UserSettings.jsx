@@ -7,7 +7,7 @@ const UserSettings = () => {
   const [newPassword, setNewPassword] = useState("");
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/users/me", {
+    fetch(process.env.REACT_APP_BACKEND_ADDRESS + "/users/me", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${auth.user.access_token}`,
