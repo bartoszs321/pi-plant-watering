@@ -9,9 +9,13 @@ services:
       - /sys:/sys
     devices:
       - /dev/gpiomem
+    restart_policy:
+        condition: always
   app:
     build: src/frontend/pi-plant-watering
     ports:
       - 3000:3000
     volumes:
       - /home/pi/git/pi-plant-watering/src/frontend/pi-plant-watering/.env:/app/.env
+    restart_policy:
+      condition: always
