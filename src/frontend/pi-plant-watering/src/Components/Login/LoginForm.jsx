@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../utils/auth-context";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,8 +10,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const [auth, setAuth] = useContext(AuthContext);
-
-  const notify = () => toast("Wow so easy!");
 
   const handleSubmit = async (event) => {
     event.preventDefault();

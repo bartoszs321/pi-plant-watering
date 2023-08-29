@@ -15,6 +15,9 @@
 
 .users-button {
   box-shadow: none;
+  width: 7rem;
+  height: 3rem;
+  align-self: center;
 }
 
 .users-button:hover {

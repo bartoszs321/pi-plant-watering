@@ -15,7 +15,10 @@
 button {
   border-radius: 6px;
   box-shadow: 1px 1px 1px 1px rgb(212, 212, 212);
+}
 
+button:hover {
+  cursor: pointer;
 }
 
 input {

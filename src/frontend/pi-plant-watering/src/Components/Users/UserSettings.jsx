@@ -20,7 +20,7 @@ const UserSettings = () => {
         userData.user = { ...auth.user, ...data };
         setAuth((auth) => userData);
       });
-  }, []);
+  }, [auth, setAuth]);
 
   const handlePasswordChange = async (event) => {
     event.preventDefault();
@@ -47,7 +47,7 @@ const UserSettings = () => {
     }).catch(() => {
       console.log("Failed");
     });
-    const data = await response.json();
+    await response.json();
     if (response.ok) {
       console.log("password changed");
     } else {

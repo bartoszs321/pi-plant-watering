@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./CameraFeed.css";
 
 const CameraFeed = () => {
@@ -32,6 +32,7 @@ const CameraFeed = () => {
           src="https://192.168.0.83:8080/video"
           ref={imageRef}
           onError={imageErrorHandler}
+          alt="Camera feed"
         ></img>
       )}
       {onError && <p>Error Loading Video Feed!</p>}

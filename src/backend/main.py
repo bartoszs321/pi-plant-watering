@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 pump = Motor(forward=20, backward=26)
-
+# pump=object()
 db = TinyDB('db.json')
 
 db.default_table_name = 'jwt-settings'
@@ -164,10 +164,10 @@ async def update_user(
 @app.post("/watering/start")
 async def start_watering(config: WateringConfig, token: str = Depends(oauth2_scheme)):
     if (config.duration > 30):
-        return HTTPException(status_code=400, detail="Duration too long")
+        raise HTTPException(status_code=400, detail="Duration too long")
 
     if (config.speed > 1 or config.speed < 0):
-        return HTTPException(status_code=400, detail="Incorrect speed")
+        raise HTTPException(status_code=400, detail="Incorrect speed")
 
     pump.forward(config.speed)
     sleep(config.duration)
