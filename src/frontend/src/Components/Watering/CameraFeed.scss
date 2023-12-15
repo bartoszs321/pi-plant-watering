@@ -14,6 +14,17 @@
   gap: 1rem;
   margin-bottom: 1rem;
   align-items: center;
+
+  iframe {
+    aspect-ratio: 16/9;
+    width: 100%;
+
+    @media only screen and (max-width: 768px) {
+      aspect-ratio: 9/21;
+
+    }
+    
+  }
 }
 
 .container img {
