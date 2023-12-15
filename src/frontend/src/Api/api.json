@@ -4,13 +4,13 @@
     "paths": {
         "/token": {
             "post": {
-                "summary": "Login For Access Token",
-                "operationId": "login_for_access_token_token_post",
+                "summary": "Post Login",
+                "operationId": "post_login",
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_login_for_access_token_token_post"
+                                "$ref": "#/components/schemas/Body_post_login_token_post"
                             }
                         }
                     },
@@ -42,8 +42,8 @@
         },
         "/users/me/": {
             "get": {
-                "summary": "Read Users Me",
-                "operationId": "read_users_me_users_me__get",
+                "summary": "Get Current User Info",
+                "operationId": "get_current_user_info",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -62,7 +62,7 @@
         "/user": {
             "post": {
                 "summary": "Update User",
-                "operationId": "update_user_user_post",
+                "operationId": "update_user",
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
@@ -95,7 +95,7 @@
         "/watering/start": {
             "post": {
                 "summary": "Start Watering",
-                "operationId": "start_watering_watering_start_post",
+                "operationId": "start_watering",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -128,7 +128,7 @@
         "watering/stop": {
             "get": {
                 "summary": "Stop Watering",
-                "operationId": "stop_wateringwatering_stop_get",
+                "operationId": "stop_watering",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -141,7 +141,7 @@
         "/camera-feed": {
             "get": {
                 "summary": "Proxy Video",
-                "operationId": "proxy_video_camera_feed_get",
+                "operationId": "proxy_video",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -153,8 +153,8 @@
     },
     "components": {
         "schemas": {
-            "Body_login_for_access_token_token_post": {
-                "title": "Body_login_for_access_token_token_post",
+            "Body_post_login_token_post": {
+                "title": "Body_post_login_token_post",
                 "required": ["username", "password"],
                 "type": "object",
                 "properties": {

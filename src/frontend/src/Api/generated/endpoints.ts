@@ -4,110 +4,169 @@
  * FastAPI
  * OpenAPI spec version: 0.1.0
  */
-import axios from 'axios';
-import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
-    BodyLoginForAccessTokenTokenPost,
+    BodyPostLoginTokenPost,
     BodyUpdateUserUserPost,
     Token,
     User,
     WateringConfig,
 } from './models';
+import { customInstance } from '../custom-axios';
 
-/**
- * @summary Login For Access Token
- */
-export const loginForAccessTokenTokenPost = <TData = AxiosResponse<Token>>(
-    bodyLoginForAccessTokenTokenPost: BodyLoginForAccessTokenTokenPost,
-    options?: AxiosRequestConfig
-): Promise<TData> => {
-    const formUrlEncoded = new URLSearchParams();
-    if (bodyLoginForAccessTokenTokenPost.grant_type !== undefined) {
-        formUrlEncoded.append(
-            'grant_type',
-            bodyLoginForAccessTokenTokenPost.grant_type
+// eslint-disable-next-line
+type SecondParameter<T extends (...args: any) => any> = T extends (
+    config: any,
+    args: infer P
+) => any
+    ? P
+    : never;
+
+export const getFastAPI = () => {
+    /**
+     * @summary Post Login
+     */
+    const postLogin = (
+        bodyPostLoginTokenPost: BodyPostLoginTokenPost,
+        options?: SecondParameter<typeof customInstance>
+    ) => {
+        const formUrlEncoded = new URLSearchParams();
+        if (bodyPostLoginTokenPost.grant_type !== undefined) {
+            formUrlEncoded.append(
+                'grant_type',
+                bodyPostLoginTokenPost.grant_type
+            );
+        }
+        formUrlEncoded.append('username', bodyPostLoginTokenPost.username);
+        formUrlEncoded.append('password', bodyPostLoginTokenPost.password);
+        if (bodyPostLoginTokenPost.scope !== undefined) {
+            formUrlEncoded.append('scope', bodyPostLoginTokenPost.scope);
+        }
+        if (bodyPostLoginTokenPost.client_id !== undefined) {
+            formUrlEncoded.append(
+                'client_id',
+                bodyPostLoginTokenPost.client_id
+            );
+        }
+        if (bodyPostLoginTokenPost.client_secret !== undefined) {
+            formUrlEncoded.append(
+                'client_secret',
+                bodyPostLoginTokenPost.client_secret
+            );
+        }
+
+        return customInstance<Token>(
+            {
+                url: `/token`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data: formUrlEncoded,
+            },
+            options
         );
-    }
-    formUrlEncoded.append(
-        'username',
-        bodyLoginForAccessTokenTokenPost.username
-    );
-    formUrlEncoded.append(
-        'password',
-        bodyLoginForAccessTokenTokenPost.password
-    );
-    if (bodyLoginForAccessTokenTokenPost.scope !== undefined) {
-        formUrlEncoded.append('scope', bodyLoginForAccessTokenTokenPost.scope);
-    }
-    if (bodyLoginForAccessTokenTokenPost.client_id !== undefined) {
-        formUrlEncoded.append(
-            'client_id',
-            bodyLoginForAccessTokenTokenPost.client_id
+    };
+
+    /**
+     * @summary Get Current User Info
+     */
+    const getCurrentUserInfo = (
+        options?: SecondParameter<typeof customInstance>
+    ) => {
+        return customInstance<User>(
+            { url: `/users/me/`, method: 'GET' },
+            options
         );
-    }
-    if (bodyLoginForAccessTokenTokenPost.client_secret !== undefined) {
+    };
+
+    /**
+     * @summary Update User
+     */
+    const updateUser = (
+        bodyUpdateUserUserPost: BodyUpdateUserUserPost,
+        options?: SecondParameter<typeof customInstance>
+    ) => {
+        const formUrlEncoded = new URLSearchParams();
         formUrlEncoded.append(
-            'client_secret',
-            bodyLoginForAccessTokenTokenPost.client_secret
+            'new_password',
+            bodyUpdateUserUserPost.new_password
         );
-    }
 
-    return axios.post(`/token`, formUrlEncoded, options);
+        return customInstance<unknown>(
+            {
+                url: `/user`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data: formUrlEncoded,
+            },
+            options
+        );
+    };
+
+    /**
+     * @summary Start Watering
+     */
+    const startWatering = (
+        wateringConfig: WateringConfig,
+        options?: SecondParameter<typeof customInstance>
+    ) => {
+        return customInstance<unknown>(
+            {
+                url: `/watering/start`,
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                data: wateringConfig,
+            },
+            options
+        );
+    };
+
+    /**
+     * @summary Stop Watering
+     */
+    const stopWatering = (options?: SecondParameter<typeof customInstance>) => {
+        return customInstance<unknown>(
+            { url: `/watering/stop`, method: 'GET' },
+            options
+        );
+    };
+
+    /**
+     * @summary Proxy Video
+     */
+    const proxyVideo = (options?: SecondParameter<typeof customInstance>) => {
+        return customInstance<unknown>(
+            { url: `/camera-feed`, method: 'GET' },
+            options
+        );
+    };
+
+    return {
+        postLogin,
+        getCurrentUserInfo,
+        updateUser,
+        startWatering,
+        stopWatering,
+        proxyVideo,
+    };
 };
-
-/**
- * @summary Read Users Me
- */
-export const readUsersMeUsersMeGet = <TData = AxiosResponse<User>>(
-    options?: AxiosRequestConfig
-): Promise<TData> => {
-    return axios.get(`/users/me/`, options);
-};
-
-/**
- * @summary Update User
- */
-export const updateUserUserPost = <TData = AxiosResponse<unknown>>(
-    bodyUpdateUserUserPost: BodyUpdateUserUserPost,
-    options?: AxiosRequestConfig
-): Promise<TData> => {
-    const formUrlEncoded = new URLSearchParams();
-    formUrlEncoded.append('new_password', bodyUpdateUserUserPost.new_password);
-
-    return axios.post(`/user`, formUrlEncoded, options);
-};
-
-/**
- * @summary Start Watering
- */
-export const startWateringWateringStartPost = <TData = AxiosResponse<unknown>>(
-    wateringConfig: WateringConfig,
-    options?: AxiosRequestConfig
-): Promise<TData> => {
-    return axios.post(`/watering/start`, wateringConfig, options);
-};
-
-/**
- * @summary Stop Watering
- */
-export const stopWateringwateringStopGet = <TData = AxiosResponse<unknown>>(
-    options?: AxiosRequestConfig
-): Promise<TData> => {
-    return axios.get(`/watering/stop`, options);
-};
-
-/**
- * @summary Proxy Video
- */
-export const proxyVideoCameraFeedGet = <TData = AxiosResponse<unknown>>(
-    options?: AxiosRequestConfig
-): Promise<TData> => {
-    return axios.get(`/camera-feed`, options);
-};
-
-export type LoginForAccessTokenTokenPostResult = AxiosResponse<Token>;
-export type ReadUsersMeUsersMeGetResult = AxiosResponse<User>;
-export type UpdateUserUserPostResult = AxiosResponse<unknown>;
-export type StartWateringWateringStartPostResult = AxiosResponse<unknown>;
-export type StopWateringwateringStopGetResult = AxiosResponse<unknown>;
-export type ProxyVideoCameraFeedGetResult = AxiosResponse<unknown>;
+export type PostLoginResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['postLogin']>>
+>;
+export type GetCurrentUserInfoResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['getCurrentUserInfo']>>
+>;
+export type UpdateUserResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['updateUser']>>
+>;
+export type StartWateringResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['startWatering']>>
+>;
+export type StopWateringResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['stopWatering']>>
+>;
+export type ProxyVideoResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['proxyVideo']>>
+>;

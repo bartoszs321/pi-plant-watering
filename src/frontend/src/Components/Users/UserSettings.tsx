@@ -7,25 +7,21 @@ import React, {
 } from 'react';
 import { AuthContext } from '../../utils/auth-context';
 import Header from '../Layout/Header';
+import { getFastAPI } from '../../Api/generated/endpoints';
 
 const UserSettings = () => {
     const { auth, setAuth } = useContext(AuthContext);
     const [newPassword, setNewPassword] = useState('');
 
+    const getUserData = getFastAPI().getCurrentUserInfo;
     useEffect(() => {
-        fetch(import.meta.env.REACT_APP_BACKEND_ADDRESS + '/users/me', {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${auth.access_token}`,
-                accept: 'application/json',
-            },
-        })
-            .then((response) => response.json())
+        getUserData()
             .then((data) => {
                 var userData = { ...auth };
                 userData = { ...auth, ...data };
                 setAuth((auth) => userData);
-            });
+            })
+            .catch();
     }, [auth, setAuth]);
 
     const handlePasswordChange = async (event: FormEvent) => {
@@ -43,22 +39,17 @@ const UserSettings = () => {
         }
         const formBodyString = formBody.join('&');
 
-        const response = await fetch('http://127.0.0.1:8000/user', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${auth.access_token}`,
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: formBodyString,
-        }).catch(() => {
-            console.log('Failed');
-        });
-        await response?.json();
-        if (response?.ok) {
-            console.log('password changed');
-        } else {
-            console.log('Password change failed');
-        }
+        const updatePassword = () =>
+            getFastAPI().updateUser({
+                new_password: newPassword,
+            });
+        updatePassword()
+            .then(() => {
+                console.log('password changed');
+            })
+            .catch(() => {
+                console.log('Password change failed');
+            });
     };
 
     const passwordChangeHandler = (event: ChangeEvent) => {

@@ -1,6 +1,8 @@
+from fastapi.responses import StreamingResponse
 from gpiozero import Motor
 from time import sleep
 from datetime import datetime, timedelta
+import httpx
 from pydantic import BaseModel
 from tinydb import TinyDB, Query
 
@@ -9,6 +11,7 @@ from passlib.context import CryptContext
 from fastapi import Depends, FastAPI, HTTPException, status, Form
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.routing import APIRoute
 
 app = FastAPI()
 
@@ -123,7 +126,7 @@ async def get_current_active_user(
 
 
 @app.post("/token", response_model=Token)
-async def login_for_access_token(
+async def post_login(
         form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(get_users(), form_data.username,
                              form_data.password)
@@ -144,7 +147,7 @@ async def login_for_access_token(
 
 
 @app.get("/users/me/", response_model=User)
-async def read_users_me(current_user: User = Depends(get_current_active_user)):
+async def get_current_user_info(current_user: User = Depends(get_current_active_user)):
     return current_user
 
 
@@ -163,7 +166,7 @@ async def update_user(
 
 @app.post("/watering/start")
 async def start_watering(config: WateringConfig, token: str = Depends(oauth2_scheme)):
-    if (config.duration > 30):
+    if (config.duration > 60):
         raise HTTPException(status_code=400, detail="Duration too long")
 
     if (config.speed > 1 or config.speed < 0):
@@ -176,3 +179,26 @@ async def start_watering(config: WateringConfig, token: str = Depends(oauth2_sch
 @app.get("watering/stop")
 async def stop_watering(token: str = Depends(oauth2_scheme)):
     pump.stop()
+
+
+@app.get("/camera-feed")
+async def proxy_video():
+    def iter():
+        with httpx.stream("GET", 'http://192.168.0.83:8080/shot.jpg') as r:
+            for chunk in r.iter_bytes():
+                yield chunk
+    return StreamingResponse(iter(), media_type="image/jpeg")
+
+# At the end
+def use_route_names_as_operation_ids(app: FastAPI) -> None:
+    """
+    Simplify operation IDs so that generated API clients have simpler function
+    names.
+
+    Should be called only after all routes have been added.
+    """
+    for route in app.routes:
+        if isinstance(route, APIRoute):
+            route.operation_id = route.name 
+
+use_route_names_as_operation_ids(app)
