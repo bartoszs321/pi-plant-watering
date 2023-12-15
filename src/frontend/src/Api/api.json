@@ -1,0 +1,268 @@
+{
+    "openapi": "3.0.2",
+    "info": { "title": "FastAPI", "version": "0.1.0" },
+    "paths": {
+        "/token": {
+            "post": {
+                "summary": "Login For Access Token",
+                "operationId": "login_for_access_token_token_post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_login_for_access_token_token_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Token"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/me/": {
+            "get": {
+                "summary": "Read Users Me",
+                "operationId": "read_users_me_users_me__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/user": {
+            "post": {
+                "summary": "Update User",
+                "operationId": "update_user_user_post",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_update_user_user_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/watering/start": {
+            "post": {
+                "summary": "Start Watering",
+                "operationId": "start_watering_watering_start_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WateringConfig"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "watering/stop": {
+            "get": {
+                "summary": "Stop Watering",
+                "operationId": "stop_wateringwatering_stop_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/camera-feed": {
+            "get": {
+                "summary": "Proxy Video",
+                "operationId": "proxy_video_camera_feed_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Body_login_for_access_token_token_post": {
+                "title": "Body_login_for_access_token_token_post",
+                "required": ["username", "password"],
+                "type": "object",
+                "properties": {
+                    "grant_type": {
+                        "title": "Grant Type",
+                        "pattern": "password",
+                        "type": "string"
+                    },
+                    "username": { "title": "Username", "type": "string" },
+                    "password": { "title": "Password", "type": "string" },
+                    "scope": {
+                        "title": "Scope",
+                        "type": "string",
+                        "default": ""
+                    },
+                    "client_id": { "title": "Client Id", "type": "string" },
+                    "client_secret": {
+                        "title": "Client Secret",
+                        "type": "string"
+                    }
+                }
+            },
+            "Body_update_user_user_post": {
+                "title": "Body_update_user_user_post",
+                "required": ["new_password"],
+                "type": "object",
+                "properties": {
+                    "new_password": {
+                        "title": "New Password",
+                        "type": "string"
+                    }
+                }
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "Token": {
+                "title": "Token",
+                "required": ["access_token", "token_type", "expiry"],
+                "type": "object",
+                "properties": {
+                    "access_token": {
+                        "title": "Access Token",
+                        "type": "string"
+                    },
+                    "token_type": { "title": "Token Type", "type": "string" },
+                    "expiry": {
+                        "title": "Expiry",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "User": {
+                "title": "User",
+                "required": ["username"],
+                "type": "object",
+                "properties": {
+                    "username": { "title": "Username", "type": "string" },
+                    "email": { "title": "Email", "type": "string" },
+                    "full_name": { "title": "Full Name", "type": "string" },
+                    "disabled": { "title": "Disabled", "type": "boolean" }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": ["loc", "msg", "type"],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "anyOf": [
+                                { "type": "string" },
+                                { "type": "integer" }
+                            ]
+                        }
+                    },
+                    "msg": { "title": "Message", "type": "string" },
+                    "type": { "title": "Error Type", "type": "string" }
+                }
+            },
+            "WateringConfig": {
+                "title": "WateringConfig",
+                "required": ["duration", "speed"],
+                "type": "object",
+                "properties": {
+                    "duration": { "title": "Duration", "type": "integer" },
+                    "speed": { "title": "Speed", "type": "number" }
+                }
+            }
+        },
+        "securitySchemes": {
+            "OAuth2PasswordBearer": {
+                "type": "oauth2",
+                "flows": { "password": { "scopes": {}, "tokenUrl": "token" } }
+            }
+        }
+    }
+}
