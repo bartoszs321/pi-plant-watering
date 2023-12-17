@@ -5,8 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export * from './bodyPostLoginTokenPost';
-export * from './bodyUpdateUserUserPost';
+export * from './bodyPostLoginLoginTokenPost';
+export * from './bodyUpdateUserUsersPasswordPost';
 export * from './hTTPValidationError';
 export * from './token';
 export * from './user';
