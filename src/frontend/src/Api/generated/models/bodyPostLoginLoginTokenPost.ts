@@ -5,7 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface BodyPostLoginTokenPost {
+export interface BodyPostLoginLoginTokenPost {
     client_id?: string;
     client_secret?: string;
     grant_type?: string;

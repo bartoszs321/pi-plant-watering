@@ -2,15 +2,70 @@
     "openapi": "3.0.2",
     "info": { "title": "FastAPI", "version": "0.1.0" },
     "paths": {
-        "/token": {
+        "/users/me": {
+            "get": {
+                "tags": ["users"],
+                "summary": "Get Current User Info",
+                "operationId": "get_current_user_info",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/users/password": {
             "post": {
+                "tags": ["users"],
+                "summary": "Update User",
+                "operationId": "update_user",
+                "requestBody": {
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Body_update_user_users_password_post"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": { "application/json": { "schema": {} } }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{ "OAuth2PasswordBearer": [] }]
+            }
+        },
+        "/login/token": {
+            "post": {
+                "tags": ["auth"],
                 "summary": "Post Login",
                 "operationId": "post_login",
                 "requestBody": {
                     "content": {
                         "application/x-www-form-urlencoded": {
                             "schema": {
-                                "$ref": "#/components/schemas/Body_post_login_token_post"
+                                "$ref": "#/components/schemas/Body_post_login_login_token_post"
                             }
                         }
                     },
@@ -40,60 +95,9 @@
                 }
             }
         },
-        "/users/me/": {
-            "get": {
-                "summary": "Get Current User Info",
-                "operationId": "get_current_user_info",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [{ "OAuth2PasswordBearer": [] }]
-            }
-        },
-        "/user": {
-            "post": {
-                "summary": "Update User",
-                "operationId": "update_user",
-                "requestBody": {
-                    "content": {
-                        "application/x-www-form-urlencoded": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Body_update_user_user_post"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": { "application/json": { "schema": {} } }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [{ "OAuth2PasswordBearer": [] }]
-            }
-        },
         "/watering/start": {
             "post": {
+                "tags": ["water"],
                 "summary": "Start Watering",
                 "operationId": "start_watering",
                 "requestBody": {
@@ -125,8 +129,9 @@
                 "security": [{ "OAuth2PasswordBearer": [] }]
             }
         },
-        "watering/stop": {
+        "/watering/stop": {
             "get": {
+                "tags": ["water"],
                 "summary": "Stop Watering",
                 "operationId": "stop_watering",
                 "responses": {
@@ -153,8 +158,8 @@
     },
     "components": {
         "schemas": {
-            "Body_post_login_token_post": {
-                "title": "Body_post_login_token_post",
+            "Body_post_login_login_token_post": {
+                "title": "Body_post_login_login_token_post",
                 "required": ["username", "password"],
                 "type": "object",
                 "properties": {
@@ -177,8 +182,8 @@
                     }
                 }
             },
-            "Body_update_user_user_post": {
-                "title": "Body_update_user_user_post",
+            "Body_update_user_users_password_post": {
+                "title": "Body_update_user_users_password_post",
                 "required": ["new_password"],
                 "type": "object",
                 "properties": {

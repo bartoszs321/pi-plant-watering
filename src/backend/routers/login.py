@@ -1,7 +1,6 @@
 from time import sleep
 from datetime import datetime, timedelta
 from pydantic import BaseModel
-
 from jose import jwt
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status, Form, APIRouter
@@ -15,9 +14,7 @@ from ..dependencies import (
     get_users,
 )
 
-
 router = APIRouter(prefix="/login", tags=["auth"])
-
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 

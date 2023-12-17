@@ -5,8 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 import type {
-    BodyPostLoginTokenPost,
-    BodyUpdateUserUserPost,
+    BodyPostLoginLoginTokenPost,
+    BodyUpdateUserUsersPasswordPost,
     Token,
     User,
     WateringConfig,
@@ -23,40 +23,33 @@ type SecondParameter<T extends (...args: any) => any> = T extends (
 
 export const getFastAPI = () => {
     /**
-     * @summary Post Login
+     * @summary Get Current User Info
      */
-    const postLogin = (
-        bodyPostLoginTokenPost: BodyPostLoginTokenPost,
+    const getCurrentUserInfo = (
+        options?: SecondParameter<typeof customInstance>
+    ) => {
+        return customInstance<User>(
+            { url: `/users/me`, method: 'GET' },
+            options
+        );
+    };
+
+    /**
+     * @summary Update User
+     */
+    const updateUser = (
+        bodyUpdateUserUsersPasswordPost: BodyUpdateUserUsersPasswordPost,
         options?: SecondParameter<typeof customInstance>
     ) => {
         const formUrlEncoded = new URLSearchParams();
-        if (bodyPostLoginTokenPost.grant_type !== undefined) {
-            formUrlEncoded.append(
-                'grant_type',
-                bodyPostLoginTokenPost.grant_type
-            );
-        }
-        formUrlEncoded.append('username', bodyPostLoginTokenPost.username);
-        formUrlEncoded.append('password', bodyPostLoginTokenPost.password);
-        if (bodyPostLoginTokenPost.scope !== undefined) {
-            formUrlEncoded.append('scope', bodyPostLoginTokenPost.scope);
-        }
-        if (bodyPostLoginTokenPost.client_id !== undefined) {
-            formUrlEncoded.append(
-                'client_id',
-                bodyPostLoginTokenPost.client_id
-            );
-        }
-        if (bodyPostLoginTokenPost.client_secret !== undefined) {
-            formUrlEncoded.append(
-                'client_secret',
-                bodyPostLoginTokenPost.client_secret
-            );
-        }
+        formUrlEncoded.append(
+            'new_password',
+            bodyUpdateUserUsersPasswordPost.new_password
+        );
 
-        return customInstance<Token>(
+        return customInstance<unknown>(
             {
-                url: `/token`,
+                url: `/users/password`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -68,33 +61,40 @@ export const getFastAPI = () => {
     };
 
     /**
-     * @summary Get Current User Info
+     * @summary Post Login
      */
-    const getCurrentUserInfo = (
-        options?: SecondParameter<typeof customInstance>
-    ) => {
-        return customInstance<User>(
-            { url: `/users/me/`, method: 'GET' },
-            options
-        );
-    };
-
-    /**
-     * @summary Update User
-     */
-    const updateUser = (
-        bodyUpdateUserUserPost: BodyUpdateUserUserPost,
+    const postLogin = (
+        bodyPostLoginLoginTokenPost: BodyPostLoginLoginTokenPost,
         options?: SecondParameter<typeof customInstance>
     ) => {
         const formUrlEncoded = new URLSearchParams();
-        formUrlEncoded.append(
-            'new_password',
-            bodyUpdateUserUserPost.new_password
-        );
+        if (bodyPostLoginLoginTokenPost.grant_type !== undefined) {
+            formUrlEncoded.append(
+                'grant_type',
+                bodyPostLoginLoginTokenPost.grant_type
+            );
+        }
+        formUrlEncoded.append('username', bodyPostLoginLoginTokenPost.username);
+        formUrlEncoded.append('password', bodyPostLoginLoginTokenPost.password);
+        if (bodyPostLoginLoginTokenPost.scope !== undefined) {
+            formUrlEncoded.append('scope', bodyPostLoginLoginTokenPost.scope);
+        }
+        if (bodyPostLoginLoginTokenPost.client_id !== undefined) {
+            formUrlEncoded.append(
+                'client_id',
+                bodyPostLoginLoginTokenPost.client_id
+            );
+        }
+        if (bodyPostLoginLoginTokenPost.client_secret !== undefined) {
+            formUrlEncoded.append(
+                'client_secret',
+                bodyPostLoginLoginTokenPost.client_secret
+            );
+        }
 
-        return customInstance<unknown>(
+        return customInstance<Token>(
             {
-                url: `/user`,
+                url: `/login/token`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -144,22 +144,22 @@ export const getFastAPI = () => {
     };
 
     return {
-        postLogin,
         getCurrentUserInfo,
         updateUser,
+        postLogin,
         startWatering,
         stopWatering,
         proxyVideo,
     };
 };
-export type PostLoginResult = NonNullable<
-    Awaited<ReturnType<ReturnType<typeof getFastAPI>['postLogin']>>
->;
 export type GetCurrentUserInfoResult = NonNullable<
     Awaited<ReturnType<ReturnType<typeof getFastAPI>['getCurrentUserInfo']>>
 >;
 export type UpdateUserResult = NonNullable<
     Awaited<ReturnType<ReturnType<typeof getFastAPI>['updateUser']>>
+>;
+export type PostLoginResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['postLogin']>>
 >;
 export type StartWateringResult = NonNullable<
     Awaited<ReturnType<ReturnType<typeof getFastAPI>['startWatering']>>

@@ -26,7 +26,7 @@ async def get_current_active_user(current_user: User = Depends(get_current_user)
     return current_user
 
 
-def update_password(username, new_password):
+def update_user_password(username, new_password):
     db.update(
         {"hashed_password": get_password_hash(new_password)},
         Query().username == username,
@@ -43,5 +43,5 @@ async def update_user(
     new_password: str = Form(),
     current_user: User = Depends(get_current_active_user),
 ):
-    update_password(current_user.username, new_password)
+    update_user_password(current_user.username, new_password)
     return current_user

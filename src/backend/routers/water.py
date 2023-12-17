@@ -1,13 +1,9 @@
-import os
 from fastapi import APIRouter
-
-from fastapi.responses import StreamingResponse
 from gpiozero import Motor
 from time import sleep
-from datetime import datetime, timedelta
 from pydantic import BaseModel
 from passlib.context import CryptContext
-from fastapi import Depends, FastAPI, HTTPException, Form
+from fastapi import Depends, HTTPException, Form
 from fastapi.security import OAuth2PasswordBearer
 
 
