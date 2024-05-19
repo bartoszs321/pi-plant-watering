@@ -8,8 +8,8 @@ from tinydb import Query, TinyDB
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-dirname = os.path.dirname(os.path.abspath(__file__))
-db = TinyDB(os.path.join(dirname, "db.json"))  # don't question it
+# dirname = os.path.dirname(os.path.abspath(__file__))
+db = TinyDB("db.json")  # don't question it
 
 db.default_table_name = "jwt-settings"
 SECRET_KEY = db.get(doc_id=1)["secret_key"]

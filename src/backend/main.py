@@ -6,6 +6,7 @@ import httpx
 from routers.login import router as login_router
 from routers.users import router as users_router
 from routers.water import router as water_router
+import uvicorn
 
 app = FastAPI()
 
@@ -52,3 +53,9 @@ def use_route_names_as_operation_ids(app: FastAPI) -> None:
 
 
 use_route_names_as_operation_ids(app)
+
+if __name__ == '__main__':
+    uvicorn.run(app,
+                host='0.0.0.0',
+                port=80,
+                reload=True)
