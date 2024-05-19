@@ -11,7 +11,7 @@ services:
       - /dev/gpiomem
     restart: always
   app:
-    build: src/frontend/pi-plant-watering
+    build: src/frontend
     ports:
       - 3000:3000
     volumes:
