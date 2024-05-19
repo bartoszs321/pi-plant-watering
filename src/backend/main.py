@@ -3,13 +3,15 @@ from fastapi.routing import APIRoute
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
-from .routers import users, login, water
+from routers.login import router as login_router
+from routers.users import router as users_router
+from routers.water import router as water_router
 
 app = FastAPI()
 
-app.include_router(users.router)
-app.include_router(login.router)
-app.include_router(water.router)
+app.include_router(login_router)
+app.include_router(users_router)
+app.include_router(water_router)
 
 app.add_middleware(
     CORSMiddleware,
