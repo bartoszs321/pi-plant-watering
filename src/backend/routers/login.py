@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status, Form, APIRouter
 from fastapi.security import OAuth2PasswordRequestForm
 
-from ..dependencies import (
+from ..dependencies.dependencies import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     ALGORITHM,
     SECRET_KEY,
