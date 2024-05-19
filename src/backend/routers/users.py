@@ -8,7 +8,7 @@ from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, Form
 
 from .login import get_password_hash
-from backend.dependencies.dependencies import User, get_current_user, db
+from dependencies.dependencies import User, get_current_user, db
 
 router = APIRouter(prefix="/users", tags=["users"])
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
