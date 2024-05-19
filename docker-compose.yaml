@@ -5,7 +5,7 @@ services:
     ports:
       - 8000:80
     volumes:
-      - ./src/backend/dependencies/db.json:/code/db.json
+      - ./src/backend/dependencies/db.json:/code/dependencies/db.json
       - /sys:/sys
     devices:
       - /dev/gpiomem
