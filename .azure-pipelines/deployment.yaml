@@ -12,6 +12,6 @@ stages:
             name: db_download
             inputs:
               secureFile: db.json
-          - script: cp db_download.secureFilePath $(Build.SourcesDirectory)/src/backend/dependencies/db.json
+          - script: cp $(db_download.secureFilePath) $(Build.SourcesDirectory)/src/backend/dependencies/db.json
           - script: docker-compose down
           - script: docker-compose up --build -d
