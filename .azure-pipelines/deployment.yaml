@@ -1,0 +1,13 @@
+pr: none
+trigger: none
+
+pool: rpi
+
+stages:
+  - stage: DeployContainers
+    jobs:
+      - job:
+        steps:
+          - script: ls
+          - script: docker-compose down
+          - script: docker-compose up --build -d
