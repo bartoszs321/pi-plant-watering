@@ -8,10 +8,12 @@ stages:
     jobs:
       - job:
         steps:
+          - checkout: self
+            clean: true
           - task: DownloadSecureFile@1
             name: db_download
             inputs:
               secureFile: db.json
-          - script: cp $(db_download.secureFilePath) $(Build.SourcesDirectory)/src/backend/dependencies/db.json
+          - script: cp $(db_download.secureFilePath) $(Build.SourcesDirectory)/src/backend/dependencies
           - script: docker-compose down
           - script: docker-compose up --build -d
