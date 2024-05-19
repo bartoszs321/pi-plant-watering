@@ -25,6 +25,7 @@
     },
     "scripts": {
         "start": "vite",
+        "start:headless": "vite --no-open",
         "build": "tsc && vite build",
         "preview": "vite preview",
         "orval": "orval --config ./orval.config.ts"
