@@ -1,19 +1,19 @@
-version: '3'
+version: '2'
 services:
   api:
     build: src/backend
     ports:
       - 8000:80
     volumes:
-      - /home/pi/git/pi-plant-watering/src/backend/db.json:/code/db.json
+      - ./src/backend/dependencies/db.json:/code/dependencies/db.json
       - /sys:/sys
     devices:
       - /dev/gpiomem
     restart: always
   app:
-    build: src/frontend/pi-plant-watering
+    build: src/frontend
     ports:
       - 3000:3000
     volumes:
-      - /home/pi/git/pi-plant-watering/src/frontend/pi-plant-watering/.env:/app/.env
+      - ./src/frontend/.env:/app/.env
     restart: always

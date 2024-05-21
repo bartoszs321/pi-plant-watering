@@ -3,13 +3,16 @@ from fastapi.routing import APIRoute
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
-from .routers import users, login, water
+from routers.login import router as login_router
+from routers.users import router as users_router
+from routers.water import router as water_router
+import uvicorn
 
 app = FastAPI()
 
-app.include_router(users.router)
-app.include_router(login.router)
-app.include_router(water.router)
+app.include_router(login_router)
+app.include_router(users_router)
+app.include_router(water_router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -18,6 +21,7 @@ app.add_middleware(
         "http://127.0.0.1:3000",
         "http://192.168.0.55:3000",
         "http://172.29.4.222:3000",
+        "http://192.168.68.136:3000",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -50,3 +54,9 @@ def use_route_names_as_operation_ids(app: FastAPI) -> None:
 
 
 use_route_names_as_operation_ids(app)
+
+if __name__ == '__main__':
+    uvicorn.run('main:app',
+                host='0.0.0.0',
+                port=80,
+                reload=True)
