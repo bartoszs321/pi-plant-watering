@@ -14,8 +14,9 @@ class WateringConfig(BaseModel):
 
 router = APIRouter(prefix="/watering", tags=["water"])
 
-# pump = Motor(forward=20, backward=26)
-pump = object()
+pump = Motor(forward=20, backward=26)
+# pump = object()
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
