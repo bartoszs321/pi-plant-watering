@@ -7,6 +7,6 @@
 
 export interface Token {
     access_token: string;
-    expiry: Date;
+    expiry: string;
     token_type: string;
 }
