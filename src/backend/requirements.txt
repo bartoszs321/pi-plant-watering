@@ -1,7 +1,7 @@
-fastapi[all]==0.94.0
+fastapi>=0.109.1
 passlib[bcrypt]==1.7.4
 python-jose[cryptography]==3.3.0
-python-multipart==0.0.6
+python-multipart>=0.0.7
 tinydb==4.7.1
 RPi.GPIO==0.7.1a4
 gpiozero==1.6.2
