@@ -5,6 +5,8 @@ import { AuthContext } from '../../utils/auth-context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import { getFastAPI } from '../../api/generated/endpoints';
+import { WateringConfig } from '../../api/generated/models';
 
 const CustomWateringForm = () => {
     const { auth } = useContext(AuthContext);
@@ -14,23 +16,14 @@ const CustomWateringForm = () => {
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
-        var body = {
+        var body: WateringConfig = {
             duration: duration,
             speed: speed,
         };
         const id = toast.loading('Watering...');
-        axios
-            .post(
-                import.meta.env.REACT_APP_BACKEND_ADDRESS + `/watering/start`,
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${auth.access_token}`,
-                    },
-                    body: JSON.stringify(body),
-                }
-            )
+        const fastApiClient = getFastAPI();
+        fastApiClient
+            .startWatering(body, auth.access_token)()
             .then((response) => {
                 toast.update(id, {
                     render: 'Watered!',

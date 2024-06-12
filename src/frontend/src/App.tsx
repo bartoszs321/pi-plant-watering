@@ -1,10 +1,10 @@
 import './App.scss';
 import React from 'react';
-import WateringPage from './Components/Watering/WateringPage';
+import WateringPage from './components/Watering/WateringPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './utils/ProtectedRoute';
-import Login from './Components/Login/Login';
-import UserSettings from './Components/Users/UserSettings';
+import Login from './components/Login/Login';
+import UserSettings from './components/Users/UserSettings';
 
 const App = () => {
     return (
