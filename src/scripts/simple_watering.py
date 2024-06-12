@@ -1,14 +1,22 @@
 from gpiozero import Motor
 from time import sleep
 
-pump1: Motor = Motor(forward=20, backward=26)  # brown = 20, white = 26
-pump2: Motor = Motor(forward=16, backward=19)  # ? = 16, ? = 19
+pump1: Motor = Motor(
+    forward=20, backward=19
+)  # brown = 20 (M1B), ?? = 19 (not plugged in)
+pump2: Motor = Motor(
+    forward=26, backward=16
+)  # white = 26 (M2A), ?? = 16 (not plugged in)
+
+timeInMinutes: int = 1 * 60
 
 
 def main():
     pump1.forward(1)
-    sleep(30)
+    pump2.forward(1)
+    sleep(timeInMinutes)
     pump1.stop()
+    pump2.stop()
 
 
 if __name__ == "__main__":
