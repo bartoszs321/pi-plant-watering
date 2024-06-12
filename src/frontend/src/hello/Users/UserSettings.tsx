@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { AuthContext } from '../../utils/auth-context';
 import Header from '../Layout/Header';
-import { getFastAPI } from '../../hello/generated/endpoints';
+import { getFastAPI } from '../generated/endpoints';
 
 const UserSettings = () => {
     const { auth, setAuth } = useContext(AuthContext);

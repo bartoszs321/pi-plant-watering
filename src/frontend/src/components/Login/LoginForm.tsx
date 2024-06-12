@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../utils/auth-context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getFastAPI } from '../../api/generated/endpoints';
+import { getFastAPI } from '../../hello/generated/endpoints';
 
 const LoginForm = () => {
     const [username, setUsername] = useState<string>('');

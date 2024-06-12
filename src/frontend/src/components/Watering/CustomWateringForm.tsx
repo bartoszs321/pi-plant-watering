@@ -5,8 +5,8 @@ import { AuthContext } from '../../utils/auth-context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-import { getFastAPI } from '../../api/generated/endpoints';
-import { WateringConfig } from '../../api/generated/models';
+import { getFastAPI } from '../../hello/generated/endpoints';
+import { WateringConfig } from '../../hello/generated/models';
 
 const CustomWateringForm = () => {
     const { auth } = useContext(AuthContext);

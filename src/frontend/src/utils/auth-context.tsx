@@ -5,7 +5,7 @@ import React, {
     Dispatch,
     SetStateAction,
 } from 'react';
-import { User } from '../api/generated/models';
+import { User } from '../hello/generated/models';
 
 type AuthContextType = {
     auth: AuthData;
