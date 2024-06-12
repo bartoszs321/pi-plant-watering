@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../utils/auth-context';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getFastAPI } from '../../Api/generated/endpoints';
+import { getFastAPI } from '../../api/generated/endpoints';
 
 const LoginForm = () => {
     const [username, setUsername] = useState<string>('');
@@ -15,14 +15,12 @@ const LoginForm = () => {
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
 
-        const loginUser = () =>
-            getFastAPI().postLogin({
-                username: username,
-                password: password,
-            });
+        const loginUser = getFastAPI().postLogin({
+            username: username,
+            password: password,
+        });
         loginUser()
             .then((data) => {
-                // import.meta.env.REACT_APP_BACKEND_ADDRESS + `/token`,
                 setAuth({
                     username: username,
                     access_token: data.access_token,

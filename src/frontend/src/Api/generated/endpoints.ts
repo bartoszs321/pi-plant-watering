@@ -11,7 +11,7 @@ import type {
     User,
     WateringConfig,
 } from './models';
-import { customInstance } from '../custom-axios';
+import { useCustomAxios } from '../custom-axios';
 
 // eslint-disable-next-line
 type SecondParameter<T extends (...args: any) => any> = T extends (
@@ -23,49 +23,11 @@ type SecondParameter<T extends (...args: any) => any> = T extends (
 
 export const getFastAPI = () => {
     /**
-     * @summary Get Current User Info
-     */
-    const getCurrentUserInfo = (
-        options?: SecondParameter<typeof customInstance>
-    ) => {
-        return customInstance<User>(
-            { url: `/users/me`, method: 'GET' },
-            options
-        );
-    };
-
-    /**
-     * @summary Update User
-     */
-    const updateUser = (
-        bodyUpdateUserUsersPasswordPost: BodyUpdateUserUsersPasswordPost,
-        options?: SecondParameter<typeof customInstance>
-    ) => {
-        const formUrlEncoded = new URLSearchParams();
-        formUrlEncoded.append(
-            'new_password',
-            bodyUpdateUserUsersPasswordPost.new_password
-        );
-
-        return customInstance<unknown>(
-            {
-                url: `/users/password`,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                data: formUrlEncoded,
-            },
-            options
-        );
-    };
-
-    /**
      * @summary Post Login
      */
     const postLogin = (
         bodyPostLoginLoginTokenPost: BodyPostLoginLoginTokenPost,
-        options?: SecondParameter<typeof customInstance>
+        options?: SecondParameter<typeof useCustomAxios>
     ) => {
         const formUrlEncoded = new URLSearchParams();
         if (bodyPostLoginLoginTokenPost.grant_type !== undefined) {
@@ -92,9 +54,47 @@ export const getFastAPI = () => {
             );
         }
 
-        return customInstance<Token>(
+        return useCustomAxios<Token>(
             {
                 url: `/login/token`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                data: formUrlEncoded,
+            },
+            options
+        );
+    };
+
+    /**
+     * @summary Get Current User Info
+     */
+    const getCurrentUserInfo = (
+        options?: SecondParameter<typeof useCustomAxios>
+    ) => {
+        return useCustomAxios<User>(
+            { url: `/users/me`, method: 'GET' },
+            options
+        );
+    };
+
+    /**
+     * @summary Update User
+     */
+    const updateUser = (
+        bodyUpdateUserUsersPasswordPost: BodyUpdateUserUsersPasswordPost,
+        options?: SecondParameter<typeof useCustomAxios>
+    ) => {
+        const formUrlEncoded = new URLSearchParams();
+        formUrlEncoded.append(
+            'new_password',
+            bodyUpdateUserUsersPasswordPost.new_password
+        );
+
+        return useCustomAxios<unknown>(
+            {
+                url: `/users/password`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -110,9 +110,9 @@ export const getFastAPI = () => {
      */
     const startWatering = (
         wateringConfig: WateringConfig,
-        options?: SecondParameter<typeof customInstance>
+        options?: SecondParameter<typeof useCustomAxios>
     ) => {
-        return customInstance<unknown>(
+        return useCustomAxios<unknown>(
             {
                 url: `/watering/start`,
                 method: 'POST',
@@ -126,8 +126,8 @@ export const getFastAPI = () => {
     /**
      * @summary Stop Watering
      */
-    const stopWatering = (options?: SecondParameter<typeof customInstance>) => {
-        return customInstance<unknown>(
+    const stopWatering = (options?: SecondParameter<typeof useCustomAxios>) => {
+        return useCustomAxios<unknown>(
             { url: `/watering/stop`, method: 'GET' },
             options
         );
@@ -136,30 +136,30 @@ export const getFastAPI = () => {
     /**
      * @summary Proxy Video
      */
-    const proxyVideo = (options?: SecondParameter<typeof customInstance>) => {
-        return customInstance<unknown>(
+    const proxyVideo = (options?: SecondParameter<typeof useCustomAxios>) => {
+        return useCustomAxios<unknown>(
             { url: `/camera-feed`, method: 'GET' },
             options
         );
     };
 
     return {
+        postLogin,
         getCurrentUserInfo,
         updateUser,
-        postLogin,
         startWatering,
         stopWatering,
         proxyVideo,
     };
 };
+export type PostLoginResult = NonNullable<
+    Awaited<ReturnType<ReturnType<typeof getFastAPI>['postLogin']>>
+>;
 export type GetCurrentUserInfoResult = NonNullable<
     Awaited<ReturnType<ReturnType<typeof getFastAPI>['getCurrentUserInfo']>>
 >;
 export type UpdateUserResult = NonNullable<
     Awaited<ReturnType<ReturnType<typeof getFastAPI>['updateUser']>>
->;
-export type PostLoginResult = NonNullable<
-    Awaited<ReturnType<ReturnType<typeof getFastAPI>['postLogin']>>
 >;
 export type StartWateringResult = NonNullable<
     Awaited<ReturnType<ReturnType<typeof getFastAPI>['startWatering']>>

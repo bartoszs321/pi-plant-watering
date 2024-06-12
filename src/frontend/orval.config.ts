@@ -3,26 +3,20 @@ import { defineConfig } from 'orval';
 export default defineConfig({
     endpoint: {
         input: {
-            target: 'src/Api/api.json',
+            target: 'src/api/api.json',
         },
         output: {
             clean: true,
-            target: './src/Api/generated/endpoints.ts',
-            schemas: './src/Api/generated/models',
+            target: './src/api/generated/endpoints.ts',
+            schemas: './src/api/generated/models',
+            client: 'axios',
             mode: 'split',
             prettier: true,
-            client: 'axios',
             override: {
-                useDates: true,
-                useNativeEnums: true,
                 mutator: {
-                    path: './src/Api/custom-axios.ts',
-                    name: 'customInstance',
+                    path: './src/api/custom-axios.ts',
+                    name: 'useCustomAxios',
                 },
-                // transformer: (options) => {
-                //     console.log('OPTIONS' + JSON.stringify(options));
-                //     return options;
-                // },
             },
         },
     },
