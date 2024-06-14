@@ -15,8 +15,8 @@ def main():
     pump1.forward(1)
     pump2.forward(1)
     sleep(timeInMinutes)
-    pump1.stop()
     pump2.stop()
+    pump1.stop()
 
 
 if __name__ == "__main__":

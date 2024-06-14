@@ -75,7 +75,6 @@ const CustomWateringForm = () => {
                         <input
                             type='number'
                             min='0'
-                            max='60'
                             value={duration}
                             onChange={durationChangeHandler}
                         />
