@@ -15,7 +15,7 @@ const UserSettings = () => {
 
     const getUserData = getFastAPI().getCurrentUserInfo;
     useEffect(() => {
-        getUserData()
+        getUserData()()
             .then((data) => {
                 var userData = { ...auth };
                 userData = { ...auth, ...data };
@@ -43,7 +43,7 @@ const UserSettings = () => {
             getFastAPI().updateUser({
                 new_password: newPassword,
             });
-        updatePassword()
+        updatePassword()()
             .then(() => {
                 console.log('password changed');
             })
